@@ -1,5 +1,8 @@
 const {DynamoDBClient} = require('@aws-sdk/client-dynamodb');
-const {DynamoDBDocument} = require('@aws-sdk/lib-dynamodb');
+const {
+  DynamoDBDocumentClient, GetCommand,
+  UpdateCommand, DeleteCommand,
+} = require('@aws-sdk/lib-dynamodb');
 /*
  Constants and environment variables that can be reused
  across Lambda invocations. AWS_REGION is a default variable
@@ -7,8 +10,9 @@ const {DynamoDBDocument} = require('@aws-sdk/lib-dynamodb');
 */
 const CALLBACKTABLE = process.env.CALLBACKTABLE;
 const REGION = process.env.AWS_REGION || 'ap-southeast-2';
-// Client that is analaguous to the Python Boto3 Table Resource
-const DOCCLIENT = DynamoDBDocument.from(new DynamoDBClient({region: REGION}));
+// Client that is analaguous to the Python Boto3 Table Resource,
+// with usage of the new send command
+const DOCCLIENT = DynamoDBDocumentClient.from(new DynamoDBClient({region: REGION}));
 
 exports.set_handler = async (event, context) => {
   /*
@@ -69,7 +73,7 @@ exports.set_handler = async (event, context) => {
       Key: ddbKey,
     };
 
-    let response = await DOCCLIENT.get(ddbParams);
+    let response = await DOCCLIENT.send(new GetCommand(ddbParams));
     if (response.Item !== undefined) {
       // Callback Exists
       console.debug('Callback exists for this number');
@@ -91,7 +95,7 @@ exports.set_handler = async (event, context) => {
       ddbParams.ReturnValues = 'ALL_NEW';
       console.debug('Attempting to write to DDB table');
       // We could parse the response if we desired
-      response = await DOCCLIENT.update(ddbParams);
+      response = await DOCCLIENT.send(new UpdateCommand(ddbParams));
       result.message = 'TABLE_UPDATED';
       result.result = 'SUCCESS';
     }
@@ -155,11 +159,11 @@ exports.clear_handler = async (event, context) => {
       Key: ddbKey,
     };
 
-    let response = await DOCCLIENT.get(ddbParams);
+    let response = await DOCCLIENT.send(new GetCommand(ddbParams));
     if (response.Item !== undefined) {
       // Callback Exists
       console.debug('Callback exists for this number');
-      response = await DOCCLIENT.delete(ddbParams);
+      response = await DOCCLIENT.send(new DeleteCommand(ddbParams));
       result.message = 'NUMBER_CLEARED';
       result.result = 'SUCCESS';
     } else {
