@@ -1,0 +1,27 @@
+{
+  "name": "callback-dedup-node",
+  "version": "1.0.0",
+  "description": "Callback dedup function to ensure multiple callbacks aren't enqueued for the same number for better user experience",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "npx eslint ./*.js --fix",
+    "package": "npm run lint && npm-pack-zip"
+  },
+  "author": "Justin Susans",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.41.0",
+    "@aws-sdk/lib-dynamodb": "^3.41.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.26.0",
+    "eslint-config-google": "^0.14.0",
+    "jest": "^27.3.1",
+    "npm-pack-zip": "^1.2.9"
+  },
+  "bundleDependencies": [
+    "@aws-sdk/client-dynamodb",
+    "@aws-sdk/lib-dynamodb"
+  ]
+}

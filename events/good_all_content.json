@@ -1,0 +1,35 @@
+{
+  "Name": "ContactFlowEvent",
+  "Details": {
+    "ContactData": {
+      "Attributes": {},
+      "Channel": "VOICE",
+      "ContactId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "CustomerEndpoint": {
+        "Address": "+11234567890",
+        "Type": "TELEPHONE_NUMBER"
+      },
+      "InitialContactId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "InitiationMethod": "API",
+      "InstanceARN": "arn:aws:connect:ap-southeast-2:123456789012:instance/aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb",
+      "MediaStreams": {
+        "Customer": {
+          "Audio": {
+            "StartFragmentNumber": "99999999333181432392999992622220590769999999999",
+            "StartTimestamp": "1565781909613",
+            "StreamARN": "arn:aws:kinesisvideo:ap-southeast-2:123456789012:stream/connect-contact-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/123456789101"
+          }
+        }
+      },
+      "PreviousContactId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "Queue": null,
+      "SystemEndpoint": {
+        "Address": "+11234567890",
+        "Type": "TELEPHONE_NUMBER"
+      }
+    },
+    "Parameters": {
+      "callback_number": "+642101234567"
+    }
+  }
+}
