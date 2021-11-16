@@ -1,22 +1,5 @@
 const fs = require('fs')
-const { mockClient } = require('aws-sdk-client-mock');
-const {
-    DynamoDBDocumentClient, GetCommand,
-    DeleteCommand,
-} = require('@aws-sdk/lib-dynamodb');
-process.env.CALLBACKTABLE = "fakeTable";
-const handler = require('../index')
 
-const ddbMock = mockClient(DynamoDBDocumentClient);
-
-beforeEach(() => {
-    ddbMock.reset();
-});
-
-/*
-About Mocking: See 
-https://m-radzikowski.github.io/aws-sdk-client-mock/#dynamodb-documentclient
-*/
 describe('Failure Tests for clear_handler', () => {
     const OLD_ENV = process.env;
     beforeEach(() => {
@@ -27,6 +10,9 @@ describe('Failure Tests for clear_handler', () => {
     afterAll(() => {
         process.env = OLD_ENV;
     });
+
+    process.env.CALLBACKTABLE = "fakeTable";
+    const handler = require('../index')
 
     test('Run Clear Handler No Empty Env Var', async () => {
         process.env.CALLBACKTABLE = null
@@ -48,6 +34,23 @@ describe('Failure Tests for clear_handler', () => {
 });
 
 describe('Success Tests for clear_handler', () => {
+    /*
+    About Mocking: See 
+    https://m-radzikowski.github.io/aws-sdk-client-mock/#dynamodb-documentclient
+    */
+    const { mockClient } = require('aws-sdk-client-mock');
+    const {
+        DynamoDBDocumentClient, GetCommand,
+        DeleteCommand,
+    } = require('@aws-sdk/lib-dynamodb');
+    process.env.CALLBACKTABLE = "fakeTable";
+    const handler = require('../index')
+    const ddbMock = mockClient(DynamoDBDocumentClient);
+
+    beforeEach(() => {
+        ddbMock.reset();
+    });
+
     test('Run Clear Handler No Entry', async () => {
         ddbMock.on(GetCommand, {
             TableName: 'fakeTable',
