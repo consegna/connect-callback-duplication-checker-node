@@ -1,5 +1,5 @@
-const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
-const { DynamoDBDocument } = require('@aws-sdk/lib-dynamodb');
+const {DynamoDBClient} = require('@aws-sdk/client-dynamodb');
+const {DynamoDBDocument} = require('@aws-sdk/lib-dynamodb');
 /*
  Constants and environment variables that can be reused
  across Lambda invocations. AWS_REGION is a default variable
@@ -8,7 +8,7 @@ const { DynamoDBDocument } = require('@aws-sdk/lib-dynamodb');
 const CALLBACKTABLE = process.env.CALLBACKTABLE;
 const REGION = process.env.AWS_REGION || 'ap-southeast-2';
 // Client that is analaguous to the Python Boto3 Table Resource
-const DOCCLIENT = DynamoDBDocument.from(new DynamoDBClient({ region: REGION }));
+const DOCCLIENT = DynamoDBDocument.from(new DynamoDBClient({region: REGION}));
 
 exports.set_handler = async (event, context) => {
   /*
@@ -41,7 +41,7 @@ exports.set_handler = async (event, context) => {
 
   // Default result object, since anything in the try block should return
   // something back to Connect
-  const result = { 'result': 'FAIL', 'duplicate': false, 'message': '' };
+  const result = {'result': 'FAIL', 'duplicate': false, 'message': ''};
 
   try {
     console.debug('Validating the provided Event');
@@ -62,7 +62,7 @@ exports.set_handler = async (event, context) => {
     console.info('Validation passed!');
 
     // DDB Specific Content from here
-    const ddbKey = { 'callback_number': callbackNumber };
+    const ddbKey = {'callback_number': callbackNumber};
 
     const ddbParams = {
       TableName: CALLBACKTABLE,
@@ -83,7 +83,7 @@ exports.set_handler = async (event, context) => {
         // TTL set for a week
         'ttl': await timestampWithOffset(24 * 7),
       };
-      const { updateExpression, expAttributesValues, expAttributeNames } =
+      const {updateExpression, expAttributesValues, expAttributeNames} =
         await expressionBuilder(ddbContent);
       ddbParams.UpdateExpression = updateExpression;
       ddbParams.ExpressionAttributeValues = expAttributesValues;
@@ -97,7 +97,7 @@ exports.set_handler = async (event, context) => {
     }
   } catch (exception) {
     console.error(exception);
-    result.message = "ERROR_ENCOUNTERED"
+    result.message = 'ERROR_ENCOUNTERED';
   }
   console.info('Invocation Completed with result', result);
   return result;
@@ -133,7 +133,7 @@ exports.clear_handler = async (event, context) => {
 
   // Default result object, since anything in the try block should return
   // something back to Connect
-  const result = { 'result': 'FAIL', 'message': '' };
+  const result = {'result': 'FAIL', 'message': ''};
 
   try {
     console.debug('Validating the provided Event');
@@ -148,7 +148,7 @@ exports.clear_handler = async (event, context) => {
     console.info('Validation passed!');
 
     // DDB Specific Content from here
-    const ddbKey = { 'callback_number': callbackNumber };
+    const ddbKey = {'callback_number': callbackNumber};
 
     const ddbParams = {
       TableName: CALLBACKTABLE,
@@ -170,7 +170,7 @@ exports.clear_handler = async (event, context) => {
     }
   } catch (exception) {
     console.error(exception);
-    result.message = "ERROR_ENCOUNTERED"
+    result.message = 'ERROR_ENCOUNTERED';
   }
   console.info('Invocation Completed with', result);
   return result;
