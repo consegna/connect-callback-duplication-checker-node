@@ -1,0 +1,5 @@
+events/
+tests/
+*.zip
+*.tgz
+.eslintrc.json
