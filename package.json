@@ -1,12 +1,12 @@
 {
   "name": "callback-dedup-node",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Callback dedup function to ensure multiple callbacks aren't enqueued for the same number for better user experience",
   "license": "MIT",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "jest",
-    "lint": "npx eslint ./*.js --fix",
+    "lint": "npx eslint --fix",
     "package": "npm run lint && npm test && npm-pack-zip"
   },
   "author": "Justin Susans",

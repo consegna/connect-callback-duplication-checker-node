@@ -12,12 +12,12 @@ describe('Failure Tests for set_handler', () => {
     });
 
     process.env.CALLBACKTABLE = "fakeTable";
-    const handler = require('../index')
+    const handler = require('../src/index')
 
     test('Run Set Handler No Empty Env Var', async () => {
         process.env.CALLBACKTABLE = null
         // Explicitly grab the handler here so the ENV var is UNSET
-        const functionToTest = (require('../index')).set_handler;
+        const functionToTest = (require('../src/index')).set_handler;
         await expect(functionToTest({}, null))
             .rejects
             .toThrow('Missing Required Environment Variable: CALLBACKTABLE');
@@ -44,7 +44,7 @@ describe('Success Tests for set_handler', () => {
         UpdateCommand,
     } = require('@aws-sdk/lib-dynamodb');
     process.env.CALLBACKTABLE = "fakeTable";
-    const handler = require('../index')
+    const handler = require('../src/index')
 
     const ddbMock = mockClient(DynamoDBDocumentClient);
 

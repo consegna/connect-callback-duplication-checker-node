@@ -27,7 +27,7 @@
     "overrides": [
         {
             "files": [
-                "*.js"
+                "src/*.js"
             ]
         }
     ]
