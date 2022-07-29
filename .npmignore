@@ -3,3 +3,4 @@ tests/
 *.zip
 *.tgz
 .eslintrc.json
+.github/
